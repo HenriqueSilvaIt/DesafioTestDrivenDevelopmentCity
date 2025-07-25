@@ -3,6 +3,8 @@ package com.devsuperior.bds02.services;
 import com.devsuperior.bds02.dto.CityDTO;
 import com.devsuperior.bds02.entities.City;
 import com.devsuperior.bds02.repositories.CityRepository;
+import com.devsuperior.bds02.services.exceptions.DatabaseException;
+import com.devsuperior.bds02.services.exceptions.ResourceNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -47,13 +49,13 @@ public class CityService {
     public void delete(Long id) {
 
      if(!repository.existsById(id) ) {
-         throw new EntityNotFoundException("Id não existe");
+         throw new ResourceNotFoundException("Id não existe");
      }
      try {
          repository.deleteById(id);
      } catch (DataIntegrityViolationException e ){
 
-    throw new DataIntegrityViolationException("Falha de inetegridade referencial");
+    throw new DatabaseException("Falha de inetegridade referencial");
 
      }
 
